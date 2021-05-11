@@ -5,7 +5,8 @@
     "main": "backend/build/index.js",
     "scripts": {
         "start": "node backend/build/index.js",
-        "test": "nodemon backend/build/index.js"
+        "test": "nodemon backend/build/index.js",
+        "build": "cd frontend && tsc && cd ../backend && tsc"
     },
     "repository": {
         "type": "git",
