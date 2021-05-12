@@ -1,3 +1,3 @@
-async function addNewUserItem (username: string, email: string, password: string, type: string){
-    await db.run("INSERT INTO users(username, email, password, type) VALUES (?, ?, ?, ?)", [username, email, password, type]);
+async function addNewUserItem (firstName: string, lastName: string, email: string, password: string, type: string){
+    await db.run("INSERT INTO users(first_name, last_name, email, password, type) VALUES (?, ?, ?, ?, ?)", [firstName, lastName, email, password, type]);
 }

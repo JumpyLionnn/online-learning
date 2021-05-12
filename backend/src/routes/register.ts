@@ -1,20 +1,36 @@
 async function register (req: ExpressRequest, res: ExpressResponse){
     const data = req.body;
 
-    let username: string;
-    if(typeof data.username === "string"){
-        username = data.username;
-        if(username.length > 50){
+    let firstName: string;
+    if(typeof data.firstName === "string"){
+        firstName = data.firstName;
+        if(firstName.length > 50){
             res.status(400).json({
-                "message": "Your name is too long."
+                "message": "Your first name is too long."
             });
             return;
         }
     }
     else{
-        //socket.emit("register-error", {"message": "Your name not valid."});
         res.status(400).json({
-            "message": "Your username is not valid."
+            "message": "Your first name is not valid."
+        });
+        return;
+    }
+
+    let lastName: string;
+    if(typeof data.lastName === "string"){
+        lastName = data.lastName;
+        if(lastName.length > 50){
+            res.status(400).json({
+                "message": "Your last name is too long."
+            });
+            return;
+        }
+    }
+    else{
+        res.status(400).json({
+            "message": "Your last name is not valid."
         });
         return;
     }
@@ -23,7 +39,6 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     if(typeof data.email === "string"){
         email = data.email;
         if(!isValidEmail(email)){
-            //socket.emit("register-error", {"message": "Your email is not valid."});
             res.status(400).json({
                 "message": "Your email is not valid."
             });
@@ -31,7 +46,6 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         }
     }
     else{
-        //socket.emit("register-error", {"message": "Your email is not valid."});
         res.status(400).json({
             "message": "Your email is not valid."
         });
@@ -42,7 +56,6 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     if(typeof data.password === "string"){
         password = data.password;
         if(!isValidPassword(password)){
-            //socket.emit("register-error", {"message": "Your password is not valid."});
             res.status(400).json({
                 "message": "Your password is not valid."
             });
@@ -56,7 +69,6 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         }
     }
     else{
-        //socket.emit("register-error", {"message": "Your password is not valid."});
         res.status(400).json({
             "message": "Your password is not valid."
         });
@@ -67,7 +79,6 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     if(typeof data.userType === "string"){
         userType = data.userType;
         if(userType !== "student" && userType !== "teacher" && userType !== "parent"){
-            // socket.emit("register-error", {"message": "Your user type is not valid."});
             res.status(400).json({
                 "message": "Your user type is not valid."
             });
@@ -82,14 +93,13 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
 
     if(await doesEmailExist(email)){
-        //socket.emit("register-error", {"message": "This email is already in use."});
         res.status(400).json({
             "message": "This email is already in use."
         });
         return;
     }
     try {
-        await addNewUserItem(username, email, await bcrypt.hash(password, 10), userType);
+        await addNewUserItem(firstName, lastName, email, await bcrypt.hash(password, 10), userType);
         res.json({
             "message": "Registered successfully."
         });
