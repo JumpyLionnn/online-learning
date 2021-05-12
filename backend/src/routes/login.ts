@@ -8,7 +8,6 @@ async function login (req: ExpressRequest, res: ExpressResponse){
         email = data.email;
     }
     else{
-        //socket.emit("register-error", {"message": "Your email is not valid."});
         res.status(400).json({
             "message": errorMessage
         });
@@ -20,7 +19,6 @@ async function login (req: ExpressRequest, res: ExpressResponse){
         password = data.password;
     }
     else{
-        //socket.emit("register-error", {"message": "Your password is not valid."});
         res.status(400).json({
             "message": errorMessage
         });

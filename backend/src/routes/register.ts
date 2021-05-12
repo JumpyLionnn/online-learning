@@ -66,7 +66,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     let userType: string;
     if(typeof data.userType === "string"){
         userType = data.userType;
-        if(userType !== "student" && userType !== "teacher"){
+        if(userType !== "student" && userType !== "teacher" && userType !== "parent"){
             // socket.emit("register-error", {"message": "Your user type is not valid."});
             res.status(400).json({
                 "message": "Your user type is not valid."
@@ -89,7 +89,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         return;
     }
     try {
-        await addNewUser(username, email, await bcrypt.hash(password, 10), userType);
+        await addNewUserItem(username, email, await bcrypt.hash(password, 10), userType);
         res.json({
             "message": "Registered successfully."
         });

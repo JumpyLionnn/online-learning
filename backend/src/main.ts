@@ -45,6 +45,7 @@ async function loadDB (){
         "driver": sqlite3.Database
     });
     createUsersTable();
+    createSchoolsTable();
 }
 
 
@@ -56,9 +57,24 @@ app.post("/register", jsonParser, register);
 
 app.post("/login", jsonParser, login);
 
+app.post("/schools/create", jsonParser, authorize, createNewSchool);
 
 
-io.on("connection", (socket: Socket) => {});
+io.on("connection", async (socket: Socket) => {
+    const token = socket.handshake.query.token;
+    if(!token){
+        socket.disconnect();
+        return;
+    }
+    try{
+        const payload = await jwt.verify(token, process.env.SECRET);
+        socket.userId = payload.id;
+    }
+    catch(e){
+        socket.disconnect();
+        return;
+    }
+});
 
 server.listen(3000, () => {
     console.log("listening on *:3000");
