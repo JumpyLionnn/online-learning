@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+backend/build/index.js
+frontend/build/index.js
+
+.db

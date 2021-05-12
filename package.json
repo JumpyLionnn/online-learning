@@ -2,10 +2,11 @@
   "name": "online-learning",
   "version": "1.0.0",
   "description": "an online learning platform",
-  "main": "index.js",
+  "main": "backend/build/index.js",
   "scripts": {
-    "test": "nodemon main.js",
-    "start": "node main.js"
+    "start": "node backend/build/index.js",
+    "test": "nodemon backend/build/index.js",
+    "build": "cd frontend && tsc && cd ../backend && tsc"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,11 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^9.0.2",
     "express": "^4.17.1",
+    "jwt-then": "^1.0.1",
     "socket.io": "^4.1.0",
     "sqlite": "^4.0.22",
     "sqlite3": "^5.0.2"

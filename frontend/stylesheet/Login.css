@@ -1,0 +1,17 @@
+.body{
+    background-color: aqua;
+}
+.signup{
+    background-color: aqua;
+}
+.button{
+    border-radius: 10px;
+    background-color: #999;
+    margin-top: 100px;
+}
+.image{
+    align-content: center;
+}
+.buttonText{
+    color: white;
+}
