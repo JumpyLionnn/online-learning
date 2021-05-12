@@ -14,30 +14,33 @@ const jsonParser = bodyParser.json();
 const jwt = require("jwt-then");
 require("dotenv").config();
 
-app.get("/", (req, res) => {
-    res.sendFile(path.resolve(__dirname +"../../../frontend/index.html"));
-});
 
 function walk (directoryName: string): void{
-    const directory: string[] = fs.readdirSync(directoryName);
+    const directory: string[] = fs.readdirSync("frontend/" + directoryName);
 
     for(let i = 0; i < directory.length; i++) {
-        const filePath: string = path.join(directoryName, directory[i]);
-        const stats = fs.statSync(filePath);
+        let filePath: string = path.join(directoryName, directory[i]);
+        const stats = fs.statSync("frontend/" + filePath);
         if (stats.isDirectory()) {
             walk(filePath);
         }
         else{
             const splittedFileName = directory[i].split(".");
             if(splittedFileName[splittedFileName.length -1] === "css" || splittedFileName[splittedFileName.length -1] === "js"){
+                filePath = "/" + filePath.replace(/\\/g, "/");
                 app.get(filePath, (req, res) => {
-                    res.sendFile(path.resolve(__dirname +"../../../" + filePath));
+                    res.sendFile(path.resolve(__dirname +"../../../frontend" + filePath));
                 });
             }
         }
     }
 }
 
+/*
+app.get("/build/jquery/jquery-ui.min.js", (req, res) => {
+    res.sendFile(path.resolve(__dirname +"../../../frontend/build/jquery/jquery-ui.min.js"));
+});
+*/
 let db: DataBase;
 async function loadDB (){
     db = await sqlite.open({
@@ -51,7 +54,20 @@ async function loadDB (){
 
 
 
-walk("frontend/build");
+walk("build");
+
+// Pages
+///////////////
+
+app.get("/", getHomePage);
+
+app.get("/login", getLoginPage);
+
+app.get("/register", getRegisterPage);
+
+
+// Actions
+////////////////
 
 app.post("/register", jsonParser, register);
 
