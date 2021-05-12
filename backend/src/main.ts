@@ -2,8 +2,17 @@ const express = require("express");
 const app: ExpressApp = express();
 const http = require("http");
 const server = http.createServer(app);
+const {Server} = require("socket.io");
+const io = new Server(server);
 const path = require("path");
 const fs = require("fs");
+const sqlite = require("sqlite");
+const sqlite3 = require("sqlite3");
+const bcrypt = require("bcrypt");
+const bodyParser = require("body-parser");
+const jsonParser = bodyParser.json();
+const jwt = require("jwt-then");
+require("dotenv").config();
 
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname +"../../../frontend/index.html"));
@@ -29,11 +38,30 @@ function walk (directoryName: string): void{
     }
 }
 
+let db: DataBase;
+async function loadDB (){
+    db = await sqlite.open({
+        "filename": "backend/database.db",
+        "driver": sqlite3.Database
+    });
+    createUsersTable();
+}
+
+
+
+
 walk("frontend/build");
 
+app.post("/register", jsonParser, register);
+
+app.post("/login", jsonParser, login);
 
 
+
+io.on("connection", (socket: Socket) => {});
 
 server.listen(3000, () => {
     console.log("listening on *:3000");
 });
+
+loadDB();
