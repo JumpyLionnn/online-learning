@@ -2,6 +2,7 @@ declare interface Socket{
     emit: (type: string, data: socketData) => void;
     on: (type: string, callback: (data: socketData) => void) => void;
     disconnect: () => void;
+    id: string;
     handshake: Handshake;
     userId: number;
 }
