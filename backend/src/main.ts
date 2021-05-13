@@ -15,32 +15,6 @@ const jwt = require("jwt-then");
 require("dotenv").config();
 
 
-function walk (directoryName: string): void{
-    const directory: string[] = fs.readdirSync("frontend/" + directoryName);
-
-    for(let i = 0; i < directory.length; i++) {
-        let filePath: string = path.join(directoryName, directory[i]);
-        const stats = fs.statSync("frontend/" + filePath);
-        if (stats.isDirectory()) {
-            walk(filePath);
-        }
-        else{
-            const splittedFileName = directory[i].split(".");
-            if(splittedFileName[splittedFileName.length -1] === "css" || splittedFileName[splittedFileName.length -1] === "js"){
-                filePath = "/" + filePath.replace(/\\/g, "/");
-                app.get(filePath, (req, res) => {
-                    res.sendFile(path.resolve(__dirname +"../../../frontend" + filePath));
-                });
-            }
-        }
-    }
-}
-
-/*
-app.get("/build/jquery/jquery-ui.min.js", (req, res) => {
-    res.sendFile(path.resolve(__dirname +"../../../frontend/build/jquery/jquery-ui.min.js"));
-});
-*/
 let db: DataBase;
 async function loadDB (){
     db = await sqlite.open({
@@ -51,10 +25,8 @@ async function loadDB (){
     createSchoolsTable();
 }
 
-
-
-
-walk("build");
+app.use("/images", express.static("frontend/images"));
+app.use("/build", express.static("frontend/build"));
 
 // Pages
 ///////////////
