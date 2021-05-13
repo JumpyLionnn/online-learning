@@ -37,7 +37,7 @@ console.log("loading routes");
 app.get("/", getHomePage);
 app.get("/login", getLoginPage);
 app.get("/register", getRegisterPage);
-app.get("/recover", getRegisterPage);
+app.get("/recover", getRecoverPage);
 
 
 // Static files for pages
