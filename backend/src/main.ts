@@ -1,3 +1,5 @@
+console.log("starting...");
+console.log("loading libaries...");
 const express = require("express");
 const app: ExpressApp = express();
 const http = require("http");
@@ -14,6 +16,8 @@ const jsonParser = bodyParser.json();
 const jwt = require("jwt-then");
 require("dotenv").config();
 
+// Initialize the database
+///////////////////////////////////
 
 let db: DataBase;
 async function loadDB (){
@@ -21,33 +25,36 @@ async function loadDB (){
         "filename": "backend/database.db",
         "driver": sqlite3.Database
     });
-    createUsersTable();
-    createSchoolsTable();
+    await initializeDatabase();
+    console.log("connected to the database");
 }
+loadDB();
 
-app.use("/images", express.static("frontend/images"));
-app.use("/build", express.static("frontend/build"));
+console.log("loading routes");
 
 // Pages
 ///////////////
-
 app.get("/", getHomePage);
-
 app.get("/login", getLoginPage);
-
 app.get("/register", getRegisterPage);
+app.get("/recover", getRegisterPage);
+
+
+// Static files for pages
+//////////////////////////////////
+app.use("/images", express.static("frontend/images"));
+app.use("/build", express.static("frontend/build"));
 
 
 // Actions
 ////////////////
-
 app.post("/register", jsonParser, register);
-
 app.post("/login", jsonParser, login);
-
 app.post("/schools/create", jsonParser, authorize, createNewSchool);
 
 
+// Sockets
+//////////////////
 io.on("connection", async (socket: Socket) => {
     const token = socket.handshake.query.token;
     if(!token){
@@ -57,15 +64,21 @@ io.on("connection", async (socket: Socket) => {
     try{
         const payload = await jwt.verify(token, process.env.SECRET);
         socket.userId = payload.id;
+        addOnlineUserItem(payload.id, socket.id, Date.now());
     }
     catch(e){
         socket.disconnect();
         return;
     }
+
+    socket.on("disconnect", async () => {
+        await removeOnlineUserById(socket.userId);
+    });
 });
 
-server.listen(3000, () => {
-    console.log("listening on *:3000");
-});
 
-loadDB();
+const port = process.env.PORT || 3000;
+console.log(`starting server on *:${port}`);
+server.listen(port, () => {
+    console.log(`listening on *:${port}`);
+});
