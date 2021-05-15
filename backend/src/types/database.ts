@@ -6,3 +6,11 @@ declare interface DatabaseUserColumn{
     password: string;
     type: string;
 }
+
+declare interface DatabaseSchoolColumn{
+    id: number;
+    name: string;
+    managerId: number;
+    private: number;
+    join_code: string;
+}

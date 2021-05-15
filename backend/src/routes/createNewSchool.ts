@@ -26,13 +26,39 @@ async function createNewSchool (req: ExpressRequest, res: ExpressResponse) {
     }
     if(user.type !== "teacher"){
         res.status(400).json({
-            "message": "You can not open a school as a student"
+            "message": "You can not create a school as a student"
         });
         return;
     }
+    const userSchools = await getSchoolsByManagerId(user.id);
+    if(userSchools.length === 3){
+        res.status(400).json({
+            "message": "You can not create more than three schools"
+        });
+        return;
+    }
+    let found = false;
+    for(let i = 0; i < userSchools.length; i++) {
+        if (userSchools[i].name === name) {
+            found = true;
+            break;
+        }
+    }
+    if(found){
+        res.status(400).json({
+            "message": "You can not create more than one school with the same name"
+        });
+        return;
+    }
+    let code = generateCode(10);
+    while(await getSchoolByJoinCode(code)){
+        code = generateCode(10);
+    }
     await addNewSchoolItem(name, user.id);
     res.status(200).json({
-        "message": "Opened a school succesfully"
+        "message": "Opened a school succesfully",
+        "joinCode": code,
+        "name": name,
     });
     return;
 }
