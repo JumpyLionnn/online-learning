@@ -15,6 +15,7 @@ declare interface ExpressResponse{
     send: (text: string) => void;
     status: (status: number) => ExpressResponseStatus;
     json: (data?: {[name: string]: string | number | boolean}) => void;
+    redirect: (route: string) => void
 }
 
 declare interface ExpressResponseStatus{

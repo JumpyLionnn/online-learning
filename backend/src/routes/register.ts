@@ -100,9 +100,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
     try {
         await addNewUserItem(firstName, lastName, email, await bcrypt.hash(password, 10), userType);
-        res.json({
-            "message": "Registered successfully."
-        });
+        res.redirect("/login");
     } catch (error) {
         res.status(500).send();
     }

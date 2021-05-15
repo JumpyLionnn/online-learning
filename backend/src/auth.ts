@@ -1,9 +1,9 @@
 async function authorize (req: ExpressRequest, res: ExpressResponse, next: () => void){
     try {
-        if(!(typeof req.headers.authorization === "string")){
+        if(!(typeof req.query.authorization === "string")){
             throw "";
         }
-        const token = req.headers.authorization.split(" ")[1];
+        const token = req.query.authorization.split(" ")[1];
         if(!token){
             throw "";
         }

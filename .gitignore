@@ -108,3 +108,4 @@ backend/build/index.js
 frontend/build/index.js
 
 .db
+backend/database.db

@@ -50,7 +50,10 @@ app.use("/build", express.static("frontend/build"));
 ////////////////
 app.post("/register", jsonParser, register);
 app.post("/login", jsonParser, login);
-app.post("/schools/create", jsonParser, authorize, createNewSchool);
+
+app.post("/school/create", jsonParser, authorize, createNewSchool);
+
+app.post("/classroom/create", jsonParser, authorize, createNewSchool);
 
 
 // Sockets
