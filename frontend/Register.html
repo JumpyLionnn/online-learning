@@ -33,19 +33,19 @@
                         <div class="col-md-6 form text-center">
                             <form action="register" method="POST" id="register-form">
                                 <div class="form-group mt-4">
-                                    <input type="text" name="firstName" class="form-control" placeholder="Firstname" required>
+                                    <input type="text" name="firstName" class="form-control" placeholder="Firstname" value="<server>firstName</server>" required>
                                 </div>
                                 <div class="form-group mt-4">
-                                    <input type="text" name="lastName" class="form-control" placeholder="Lastname" required>
+                                    <input type="text" name="lastName" class="form-control" placeholder="Lastname" required value="<server>lastName</server>">
                                 </div>
                                 <div class="form-group mt-4">
-                                    <input type="text" name="email" class="form-control" placeholder="e-mail" required>
+                                    <input type="text" name="email" class="form-control" placeholder="e-mail" required value="<server>email</server>">
                                 </div>
                                 <div class="form-group mt-4">
-                                    <input id="password" type="password" name="password" class="form-control" placeholder="Password" required>
+                                    <input id="password" type="password" name="password" class="form-control" placeholder="Password" required value="<server>password</server>">
                                 </div>
                                 <div class="form-group mt-4">
-                                    <input id="confirm-password" type="password" class="form-control" placeholder="Confirm Password" required>
+                                    <input id="confirm-password" type="password" class="form-control" placeholder="Confirm Password" required value="<server>confirm-password</server>">
                                 </div>
                                 <div class="form-group mt-4">
                                     <select class="form-select overflow-hidden" multiple aria-label="multiple select example" name="userType" size="3">
@@ -55,7 +55,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group mt-4">
-                                    <div id="register-message" class="alert" role="alert"></div>
+                                    <div id="register-message" class="alert <server>alertClass</server>" role="alert">
+                                        <server>message</server>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-7">
