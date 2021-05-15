@@ -1,5 +1,5 @@
 declare interface ExpressApp{
-    use: (arg1: string, arg2: string) => void;
+    use: (arg1: string | (() => void), arg2?: string) => void;
     get: (route: string, callback: (req: ExpressRequest, res: ExpressResponse) => void) => void;
     post: (route: string, callback: (req: ExpressRequest, res: ExpressResponse, next: () => void) => void,callback2?: (req: ExpressRequest, res: ExpressResponse, next: () => void) => void,callback3?: (req: ExpressRequest, res: ExpressResponse) => void) => void;
 }

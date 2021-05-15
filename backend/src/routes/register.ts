@@ -1,4 +1,5 @@
 async function register (req: ExpressRequest, res: ExpressResponse){
+    console.log("register");
     const data = req.body;
 
     let firstName: string;

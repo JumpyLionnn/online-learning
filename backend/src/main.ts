@@ -16,6 +16,9 @@ const jsonParser = bodyParser.json();
 const jwt = require("jwt-then");
 require("dotenv").config();
 
+
+
+
 // Initialize the database
 ///////////////////////////////////
 
@@ -29,6 +32,8 @@ async function loadDB (){
     console.log("connected to the database");
 }
 loadDB();
+
+app.use(bodyParser.urlencoded({"extended": false}));
 
 console.log("loading routes");
 
