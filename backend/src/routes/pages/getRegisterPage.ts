@@ -1,3 +1,3 @@
 function getRegisterPage (req: ExpressRequest, res: ExpressResponse){
-    res.send(loadHtml("frontend/Register.html"));
+    res.sendFile(path.resolve(__dirname + "../../../frontend/Register.html"));
 }
