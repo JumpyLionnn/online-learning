@@ -9,6 +9,7 @@ async function login (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": errorMessage
         });
         return;
@@ -20,6 +21,7 @@ async function login (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": errorMessage
         });
         return;
@@ -28,6 +30,7 @@ async function login (req: ExpressRequest, res: ExpressResponse){
     const user = await getUserByEmail(email);
     if(!user){
         res.status(400).json({
+            "success": false,
             "message": errorMessage
         });
         return;
@@ -38,11 +41,13 @@ async function login (req: ExpressRequest, res: ExpressResponse){
                 "id": user.id
             }, process.env.SECRET);
             res.json({
+                "success": true,
                 "message": "logged in successfully",
                 "token": token
             });
         } else{
             res.status(400).json({
+                "success": false,
                 "message": errorMessage
             });
         }

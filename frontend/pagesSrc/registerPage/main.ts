@@ -8,15 +8,7 @@ const form = document.getElementById("register-form") as HTMLFormElement;
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    //const data: {[name: string]: string} = {};
     const formData = (e.target as unknown) as FormTarget;
-    /*
-    data.firstName = ((e.target as unknown) as FormTarget)["0"].value;
-    data.lastName = ((e.target as unknown) as FormTarget)["1"].value;
-    data.email = ((e.target as unknown) as FormTarget)["2"].value;
-    data.password = ((e.target as unknown) as FormTarget)["3"].value;
-    data.userType = ((e.target as unknown) as FormTarget)["5"].value;
-    */
     if(formData[3].value !== formData[4].value){
         registerMessageLabel.classList.add("alert-danger");
         registerMessageLabel.innerText = "The passwords are not matching";
