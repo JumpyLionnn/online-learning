@@ -16,6 +16,9 @@ const jsonParser = bodyParser.json();
 const jwt = require("jwt-then");
 require("dotenv").config();
 
+
+
+
 // Initialize the database
 ///////////////////////////////////
 
@@ -29,6 +32,11 @@ async function loadDB (){
     console.log("connected to the database");
 }
 loadDB();
+
+//app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({"extended": false}));
+app.use(bodyParser.json());
+app.use(bodyParser.text({"type": "text/plain"}));
 
 console.log("loading routes");
 
@@ -50,9 +58,12 @@ app.use("/build", express.static("frontend/build"));
 
 // Actions
 ////////////////
-app.post("/register", jsonParser, register);
-app.post("/login", jsonParser, login);
-app.post("/schools/create", jsonParser, authorize, createNewSchool);
+app.post("/register", register);
+app.post("/login", login);
+
+app.post("/school/create", authorize, createNewSchool);
+
+app.post("/classroom/create", authorize, createNewSchool);
 
 
 // Sockets

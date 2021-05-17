@@ -3,4 +3,5 @@ async function initializeDatabase (){
     await createOnlineUsersTable();
     await resetOnlineUsersTable();
     await createSchoolsTable();
+    await createClassroomsTable();
 }

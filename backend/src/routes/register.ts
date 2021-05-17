@@ -6,6 +6,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         firstName = data.firstName;
         if(firstName.length > 50){
             res.status(400).json({
+                "success": false,
                 "message": "Your first name is too long."
             });
             return;
@@ -13,6 +14,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": "Your first name is not valid."
         });
         return;
@@ -23,6 +25,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         lastName = data.lastName;
         if(lastName.length > 50){
             res.status(400).json({
+                "success": false,
                 "message": "Your last name is too long."
             });
             return;
@@ -30,6 +33,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": "Your last name is not valid."
         });
         return;
@@ -40,6 +44,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         email = data.email;
         if(!isValidEmail(email)){
             res.status(400).json({
+                "success": false,
                 "message": "Your email is not valid."
             });
             return;
@@ -47,7 +52,16 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": "Your email is not valid."
+        });
+        return;
+    }
+
+    if(await doesEmailExist(email)){
+        res.status(400).json({
+            "success": false,
+            "message": "This email is already in use."
         });
         return;
     }
@@ -57,12 +71,14 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         password = data.password;
         if(!isValidPassword(password)){
             res.status(400).json({
+                "success": false,
                 "message": "Your password is not valid."
             });
             return;
         }
         if(password.length < 5){
             res.status(400).json({
+                "success": false,
                 "message": "Your password is too short."
             });
             return;
@@ -70,6 +86,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": "Your password is not valid."
         });
         return;
@@ -80,6 +97,7 @@ async function register (req: ExpressRequest, res: ExpressResponse){
         userType = data.userType;
         if(userType !== "student" && userType !== "teacher" && userType !== "parent"){
             res.status(400).json({
+                "success": false,
                 "message": "Your user type is not valid."
             });
             return;
@@ -87,21 +105,16 @@ async function register (req: ExpressRequest, res: ExpressResponse){
     }
     else{
         res.status(400).json({
+            "success": false,
             "message": "Your user type is not valid."
-        });
-        return;
-    }
-
-    if(await doesEmailExist(email)){
-        res.status(400).json({
-            "message": "This email is already in use."
         });
         return;
     }
     try {
         await addNewUserItem(firstName, lastName, email, await bcrypt.hash(password, 10), userType);
-        res.json({
-            "message": "Registered successfully."
+        res.status(400).json({
+            "success": true,
+            "message": "You registered successfully."
         });
     } catch (error) {
         res.status(500).send();
