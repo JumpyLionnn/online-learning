@@ -46,6 +46,8 @@ app.get("/", getHomePage);
 app.get("/login", getLoginPage);
 app.get("/register", getRegisterPage);
 app.get("/recover", getRecoverPage);
+app.get("/dashboard", getDashboardPage);
+
 
 
 // Static files for pages
@@ -81,6 +83,13 @@ io.on("connection", async (socket: Socket) => {
         socket.disconnect();
         return;
     }
+    const schools = await getAllMemberSchools(socket.userId);
+    socket.join("user-" + socket.id);
+    for(let i = 0; i < schools.length; i++){
+        socket.join("school-" + schools[i].id);
+    }
+
+    socket.on("message", () => {});
 
     socket.on("disconnect", async () => {
         await removeOnlineUserById(socket.userId);
