@@ -1,3 +1,3 @@
-async function getUserById (id: number): Promise<DatabaseUserColumn | undefined> {
-    return await db.get("SELECT * FROM users WHERE id = ?", [id]) as DatabaseUserColumn | undefined;
+async function getUserById (id: number): Promise<DatabaseUserRow | undefined> {
+    return await db.get("SELECT * FROM users WHERE id = ?", [id]) as DatabaseUserRow | undefined;
 }
